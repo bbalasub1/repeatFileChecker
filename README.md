@@ -39,7 +39,7 @@ OUTPUT:
 
 TESTING:
 
-    Use the photos in the phototest directory for testing this function.
+    Use the photos in the testimages directory for testing this function.
 
 CAVEATS:
 
