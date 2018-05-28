@@ -12,6 +12,10 @@ later in some OS!
 One typical use is for removing duplicate photos from your archive. It can also
 be used for deleting repeated archival files etc.
 
+USAGE:
+
+    result_df, summary_df, resultFlag = repeatFileChecker('../MainPhotoDirectory/')
+
 INPUT:
 
     rootDir : full directory to start the scan (use unix forward slash format)
@@ -26,6 +30,10 @@ OUTPUT:
     resultFlag : 1 if all delete operations were completed, 0 if no deletes 
                   were requested, -1 if deletes were done partially
                   if -1 is returned, some of the deletes were not done <int>
+
+TESTING:
+
+    Use the photos in the phototest directory for testing this function.
 
 CAVEATS:
 
