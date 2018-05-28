@@ -1,5 +1,8 @@
-TYPICAL USES: Delete repeated/replicate photos, remove multiple archives, 
-remove copies of log files, streamline document archives and document stores
+TYPICAL USE CASES: 
+
+Delete repeated/replicate photos, remove multiple backup archives, 
+remove reduntant copies of log files, streamline document archives/document stores,
+remove multiple pdf's from reference management software, code management, bookmark management.
 
 DESCRIPTION:
 
