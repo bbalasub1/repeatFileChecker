@@ -1,3 +1,8 @@
+TYPICAL USES: Delete repeated/replicate photos, remove multiple archives, 
+remove copies of log files, streamline document archives and document stores
+
+DESCRIPTION:
+
 Function to delete repeated files that occur below a root directory. It is 
 written to be cross-platform. Please notify author if you encounter an error 
 on your OS (see caveats below before emailing).
@@ -9,8 +14,7 @@ prompting the user.
 As always, use with prudence as the deleted files cannot be recovered 
 later in some OS!
 
-One typical use is for removing duplicate photos from your archive. It can also
-be used for deleting repeated archival files etc.
+One typical use is for removing duplicate photos from your archive. 
 
 USAGE:
 
