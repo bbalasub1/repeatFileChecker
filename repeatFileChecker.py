@@ -1,14 +1,10 @@
 #%%
 
 """
-TYPICAL USES: Delete repeated/replicate photos, remove multiple archives, 
-remove copies of log files, streamline document archives and document stores
-
 DESCRIPTION:
 
 Function to delete repeated files that occur below a root directory. It is 
-written to be cross-platform. Please notify author if you encounter an error 
-on your OS (see caveats below before emailing).
+written to be cross-platform. 
 
 This code traverses through a directory and its subdirectories, identifies 
 repeat files by matching their MD5 checksums and deletes the repeats after
@@ -18,6 +14,12 @@ As always, use with prudence as the deleted files cannot be recovered
 later in some OS!
 
 One typical use is for removing duplicate photos from your archive. 
+
+TYPICAL USE-CASES: 
+
+Delete repeated/replicate photos, remove multiple backup archives, 
+remove reduntant copies of log files, streamline document archives/document stores,
+remove multiple pdf's from reference management software, code management, bookmark management.
 
 USAGE:
 
@@ -49,8 +51,10 @@ CAVEATS:
     The catch-try has been omitted by design as attempting to delete
     read-only files is a serious problem and the user needs to reconsider.
     
+Please notify author if you encounter an error on your OS (see caveats above before emailing).
 
 @author: Balakumar B J, 2018
+
 """
 
 import os
