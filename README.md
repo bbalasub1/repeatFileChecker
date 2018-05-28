@@ -1,7 +1,6 @@
 DESCRIPTION:
 
-Function to delete repeated files that occur below a root directory. It is 
-written to be cross-platform. 
+Cross-platform function to delete repeated files that occur below a given directory. 
 
 This code traverses through a directory and its subdirectories, identifies 
 repeat files by matching their MD5 checksums and deletes the repeats after
