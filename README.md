@@ -13,10 +13,12 @@ One typical use is for removing duplicate photos from your archive. It can also
 be used for deleting repeated archival files etc.
 
 INPUT:
+
     rootDir : full directory to start the scan (use unix forward slash format)
                <string>
 
 OUTPUT:
+
     tuple of (result_df, summary_df, resultFlag)
     
     result_df  : complete scan results of all files <pandas dataframe>
@@ -26,6 +28,7 @@ OUTPUT:
                   if -1 is returned, some of the deletes were not done <int>
 
 CAVEATS:
+
     If you select to delete the files at the prompt, make sure the files
     are not read-only. Otherwise, the code throws an exception and exists.
     The catch-try has been omitted by design as attempting to delete
