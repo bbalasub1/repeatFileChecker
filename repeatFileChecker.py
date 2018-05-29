@@ -27,10 +27,6 @@ Streamline document archives
 
 Manage code bases
 
-USAGE:
-
-    result_df, summary_df, resultFlag = repeatFileChecker('../MainPhotoDirectory/')
-
 INPUT:
 
     rootDir : full directory to start the scan (use unix forward slash format)
@@ -54,19 +50,20 @@ OUTPUT:
                   were requested, -1 if deletes were done partially
                   if -1 is returned, some of the deletes were not done <int>
 
-EXAMPLES:
+USAGE:
+
     import repeatFileChecker as rf
     
     # search for repeats without filtering on file extensions
-    rf.repeatFileChecker('./testimages', extList = ["*.*"], caseIndependentMatch=True)
+    result_df, summary_df, resultFlag = rf.repeatFileChecker('./testimages', extList = ["*.*"], caseIndependentMatch=True)
     
     # search for repeats only on .jpg files. case independent extension filtering
     #  is performned. I.e. .jpg, .JPG, .JpG etc files are all searched. 
-    rf.repeatFileChecker('./testimages', extList = [".jpg"], caseIndependentMatch=True)
+    result_df, summary_df, resultFlag = rf.repeatFileChecker('./testimages', extList = [".jpg"], caseIndependentMatch=True)
 
     # search for repeats only on .jpg files. case dependent search is performed
     #  i.e. only .jpg files are searched. .JPG files are ignored 
-    rf.repeatFileChecker('./testimages', extList = [".jpg"], caseIndependentMatch=False)
+    result_df, summary_df, resultFlag = rf.repeatFileChecker('./testimages', extList = [".jpg"], caseIndependentMatch=False)
     
 TESTING:
 
