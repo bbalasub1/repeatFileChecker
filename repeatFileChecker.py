@@ -7,6 +7,9 @@ This code traverses through a directory and its subdirectories, identifies
 repeat files by matching their MD5 checksums and deletes the repeats after
 prompting the user. 
 
+Files can be filtered based on file name extensions. If this is used,
+only files belonging to an input list of extensions are checked for repeats.
+
 As always, use with prudence as the deleted files cannot be recovered 
 later in some OS!
 
@@ -26,17 +29,39 @@ INPUT:
 
     rootDir : full directory to start the scan (use unix forward slash format)
                <string>
+               
+    extList : Provide a list of string extensions for filtering files to process.
+                use ["*.*"] to look for all files (default). See examples below.
+                
+    caseIndependentMatch: <boolean> When set to True, file extension filtering
+               is done independently. Default is False.
 
 OUTPUT:
 
     tuple of (result_df, summary_df, resultFlag)
     
     result_df  : complete scan results of all files <pandas dataframe>
+    
     summary_df : scanned results agg by checksum <pandas dataframe>
+    
     resultFlag : 1 if all delete operations were completed, 0 if no deletes 
                   were requested, -1 if deletes were done partially
                   if -1 is returned, some of the deletes were not done <int>
 
+EXAMPLES:
+    import repeatFileChecker as rf
+    
+    # search for repeats without filtering on file extensions
+    rf.repeatFileChecker('./testimages', extList = ["*.*"], caseIndependentMatch=True)
+    
+    # search for repeats only on .jpg files. case independent extension filtering
+    #  is performned. I.e. .jpg, .JPG, .JpG etc files are all searched. 
+    rf.repeatFileChecker('./testimages', extList = [".jpg"], caseIndependentMatch=True)
+
+    # search for repeats only on .jpg files. case dependent search is performed
+    #  i.e. only .jpg files are searched. .JPG files are ignored 
+    rf.repeatFileChecker('./testimages', extList = [".jpg"], caseIndependentMatch=False)
+    
 TESTING:
 
     Use the photos in the testimages directory for testing this function.
@@ -66,9 +91,13 @@ def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/', \
     #############################################################
     rootDir = os.path.abspath(rootDir)  # make it os-independent
 
-    if caseIndependentMatch:
+    if not isinstance(extList, (list,)):
+        raise TypeError("extList must be a list. See documentation.")
+
+    # convert input extList to lower if caseIndependentMatch is turned on
+    if caseIndependentMatch:   
         extList = [x.lower() for x in extList]
-    extList = tuple(extList)
+    extList = tuple(extList)  # extList must be a tuple for comparison    
     
     #############################################################
     # checksum function 
@@ -82,34 +111,44 @@ def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/', \
                     break
                 m.update(data)
             return m.hexdigest()
-    
+ 
     #############################################################
-    # crawl through directory and compute checksums for all files
-    #############################################################        
-    # first do a quick crawl to compute total number of files        
-    n = 1
-    for dirName, subdirList, fileList in os.walk(rootDir):
-            for fname in fileList:
-                n = n + 1    
-    # now do the checksum crawl            
-    i = 1    
-    mList = []
-    fList = []
-    for dirName, subdirList, fileList in os.walk(rootDir):    
-        #print('Found directory: %s' % dirName)
-        for fname in fileList:
-            # check if file has the extensions specified
-            processFile = False
+    # check if filename contains the extension in the extList
+    #############################################################       
+    def checkFileExtension(fname, extList):
+        processFile = False
+        if extList == tuple(["*.*"]):
+            processFile = True
+        else:
             if caseIndependentMatch:
                 if fname.lower().endswith(extList):
                     processFile = True
             else:
                 if fname.endswith(extList):
                     processFile = True
-            if extList == ("*.*"):
-                processFile = True
+        return(processFile)
+
+    
+    #############################################################
+    # crawl through directory and compute checksums for all files
+    #############################################################        
+    # first do a quick crawl to compute total number of files with matching extensions
+    n = 0
+    for dirName, subdirList, fileList in os.walk(rootDir):
+            for fname in fileList:
+                # check if file has the extensions specified in the input
+                if checkFileExtension(fname, extList):
+                    n = n + 1    
+                    
+    # now do the checksum crawl            
+    i = 0   
+    mList = []
+    fList = []
+    for dirName, subdirList, fileList in os.walk(rootDir):    
+        #print('Found directory: %s' % dirName)
+        for fname in fileList:
             # if file has matching extensions, checksum it and compare
-            if processFile:
+            if checkFileExtension(fname, extList):
                 fullFileName = os.path.join(dirName, fname)
                 #print('\t%s' % fullFileName)
                 mdc = md5Checksum(fullFileName)
@@ -117,7 +156,7 @@ def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/', \
                 i = i + 1
                 mList.append(mdc)
                 fList.append(fullFileName)
-            print('completed %d of %d files' % (i, n))
+                print('completed %d of %d files' % (i, n))
         
     #############################################################
     # figure out which files are repeat files
@@ -148,27 +187,30 @@ def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/', \
     # delete repeated files from drive
     #############################################################
     resultFlag = 0
-    print("")
-    print("**************************************")
-    print("WARNING! %d repeated files ready for delete" % (len(pd) - sum(pd.keep)))
-    checkDelete = input("Delete all repeat files [Y/N]?")
-    if (checkDelete == "Y"):
+    if (len(pd) - sum(pd.keep) > 0):    
+        print("")
         print("**************************************")
-        print(" WARNING! You are about to permanently delete files from your drive")
-        print(" WARNING!  Make sure you have backups")
-        print(" WARNING!  This operation cannot be reversed")
-        finalCheckDelete = input("Are you sure you want to delete all repeat files [Yes/No]? ")
-        if (finalCheckDelete == "Yes"):
-            resultFlag = -1
-            for i in range(0, len(pd)):
-                if (pd.keep[i] == 0.0):
-                    print('deleting %s (chksum = %s)' % (pd.fname[i], pd.chksum[i]))
-                    os.remove(pd.fname[i])
-            resultFlag = 1
+        print("WARNING! %d repeated files ready for delete" % (len(pd) - sum(pd.keep)))
+        checkDelete = input("Delete all repeat files [Y/N]? ")
+        if (checkDelete == "Y"):
+            print("**************************************")
+            print(" WARNING! You are about to permanently delete files from your drive")
+            print(" WARNING!  Make sure you have backups")
+            print(" WARNING!  This operation cannot be reversed")
+            finalCheckDelete = input("Are you sure you want to delete all repeat files [Yes/No]? ")
+            if (finalCheckDelete == "Yes"):
+                resultFlag = -1
+                for i in range(0, len(pd)):
+                    if (pd.keep[i] == 0.0):
+                        print('deleting %s (chksum = %s)' % (pd.fname[i], pd.chksum[i]))
+                        os.remove(pd.fname[i])
+                resultFlag = 1
+            else:
+                print("Not deleting repeat files. Exiting program.")        
         else:
-            print("Not deleting repeat files. Exiting program.")        
+            print("Not deleting repeat files. Exiting program.")
     else:
-        print("Not deleting repeat files. Exiting program.")
+        print("No repeat files found for delete. Exiting program.")
     
     
     # return
