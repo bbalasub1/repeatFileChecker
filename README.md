@@ -16,15 +16,15 @@ One typical use is for removing duplicate photos from your archive.
 
 TYPICAL USE-CASES: 
 
-Delete repeated/replicate photos
+*Delete repeated/replicate photos*
 
-Remove multiple backup archives
+*Remove multiple backup archives*
 
-Remove reduntant copies of log files
+*Remove reduntant copies of log files*
 
-Streamline document archives
+*Streamline document archives*
 
-Manage code bases
+*Manage code bases*
 
 INPUT:
 
