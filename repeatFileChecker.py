@@ -7,7 +7,7 @@ This code traverses through a directory and its subdirectories, identifies
 repeat files by matching their MD5 checksums and deletes the repeats after
 prompting the user. 
 
-Files can be filtered based on file name extensions. If this is used,
+Files can be filtered based on file name extensions. If filtering is used,
 only files belonging to an input list of extensions are checked for repeats.
 
 As always, use with prudence as the deleted files cannot be recovered 
@@ -17,9 +17,11 @@ One typical use is for removing duplicate photos from your archive.
 
 TYPICAL USE-CASES: 
 
-Delete repeated/replicate photos, remove multiple backup archives, 
-remove reduntant copies of log files, streamline document archives/document stores,
-remove multiple pdf's from reference management software, code management, bookmark management.
+Delete repeated/replicate photos
+Remove multiple backup archives, 
+Remove reduntant copies of log files
+Streamline document archives
+Manage code bases
 
 USAGE:
 
