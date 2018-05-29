@@ -1,4 +1,4 @@
-DESCRIPTION:
+### DESCRIPTION:
 
 Cross-platform function to delete repeated files that occur below a given directory. 
 
@@ -14,19 +14,19 @@ later in some OS!
 
 One typical use is for removing duplicate photos from your archive. 
 
-TYPICAL USE-CASES: 
+### TYPICAL USE-CASES: 
 
-*Delete repeated/replicate photos*
+Delete repeated/replicate photos
 
-*Remove multiple backup archives*
+Remove multiple backup archives
 
-*Remove reduntant copies of log files*
+Remove reduntant copies of log files
 
-*Streamline document archives*
+Streamline document archives
 
-*Manage code bases*
+Manage code bases
 
-INPUT:
+### INPUT:
 
     rootDir : full directory to start the scan (use unix forward slash format)
                <string>
@@ -37,7 +37,7 @@ INPUT:
     caseIndependentMatch: <boolean> When set to True, file extension filtering
                is done independently. Default is False.
 
-OUTPUT:
+### OUTPUT:
 
     tuple of (result_df, summary_df, resultFlag)
     
@@ -49,7 +49,7 @@ OUTPUT:
                   were requested, -1 if deletes were done partially
                   if -1 is returned, some of the deletes were not done <int>
 
-USAGE:
+### USAGE:
 
     import repeatFileChecker as rf
     
@@ -64,14 +64,14 @@ USAGE:
     #  i.e. only .jpg files are searched. .JPG files are ignored 
     result_df, summary_df, resultFlag = rf.repeatFileChecker('./testimages', extList = [".jpg"], caseIndependentMatch=False)
     
-TESTING:
+### TESTING:
 
     Use the photos in the testimages directory for testing this function.
 
-CAVEATS:
+### CAVEATS:
 
     If you select to delete the files at the prompt, make sure the files
-    are not read-only. Otherwise, the code throws an exception and exists.
+    are not read-only. Otherwise, the code throws an exception and exits.
     The catch-try has been omitted by design.
     
 Please notify author if you encounter an error on your OS (see caveats above before emailing).
