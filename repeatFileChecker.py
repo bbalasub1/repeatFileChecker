@@ -72,9 +72,8 @@ TESTING:
 CAVEATS:
 
     If you select to delete the files at the prompt, make sure the files
-    are not read-only. Otherwise, the code throws an exception and exists.
-    The catch-try has been omitted by design as attempting to delete
-    read-only files is a serious problem and the user needs to reconsider.
+    are not read-only. Otherwise, the code throws an exception and exits.
+    The catch-try has been omitted by design.
     
 Please notify author if you encounter an error on your OS (see caveats above before emailing).
 
