@@ -18,9 +18,13 @@ One typical use is for removing duplicate photos from your archive.
 TYPICAL USE-CASES: 
 
 Delete repeated/replicate photos
-Remove multiple backup archives, 
+
+Remove multiple backup archives
+
 Remove reduntant copies of log files
+
 Streamline document archives
+
 Manage code bases
 
 USAGE:
