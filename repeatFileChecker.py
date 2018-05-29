@@ -57,12 +57,18 @@ import os
 import hashlib
 import pandas
 
-def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/'):
+def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/', \
+                      extList = [".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".img", ".png"], \
+                      caseIndependentMatch = False):
         
     #############################################################
     # set parameters
     #############################################################
     rootDir = os.path.abspath(rootDir)  # make it os-independent
+
+    if caseIndependentMatch:
+        extList = [x.lower() for x in extList]
+    extList = tuple(extList)
     
     #############################################################
     # checksum function 
@@ -92,13 +98,25 @@ def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/'):
     for dirName, subdirList, fileList in os.walk(rootDir):    
         #print('Found directory: %s' % dirName)
         for fname in fileList:
-            fullFileName = os.path.join(dirName, fname)
-            #print('\t%s' % fullFileName)
-            mdc = md5Checksum(fullFileName)
-            #print('\t%s' % mdc)
-            i = i + 1
-            mList.append(mdc)
-            fList.append(fullFileName)
+            # check if file has the extensions specified
+            processFile = False
+            if caseIndependentMatch:
+                if fname.lower().endswith(extList):
+                    processFile = True
+            else:
+                if fname.endswith(extList):
+                    processFile = True
+            if extList == ("*.*"):
+                processFile = True
+            # if file has matching extensions, checksum it and compare
+            if processFile:
+                fullFileName = os.path.join(dirName, fname)
+                #print('\t%s' % fullFileName)
+                mdc = md5Checksum(fullFileName)
+                #print('\t%s' % mdc)
+                i = i + 1
+                mList.append(mdc)
+                fList.append(fullFileName)
             print('completed %d of %d files' % (i, n))
         
     #############################################################
