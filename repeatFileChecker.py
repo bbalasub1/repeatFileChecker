@@ -101,6 +101,10 @@ def repeatFileChecker(rootDir = 'C:/Users/xyz/Desktop/MainPhotoFolder/', \
         extList = [x.lower() for x in extList]
     extList = tuple(extList)  # extList must be a tuple for comparison    
     
+    print('Searching for files with the following extensions:')
+    print(extList)
+    print('\n')
+    
     #############################################################
     # checksum function 
     #############################################################
