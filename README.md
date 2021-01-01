@@ -1,16 +1,12 @@
 ### DESCRIPTION:
 
-Cross-platform function to delete repeated files that occur below a given directory. 
+Cross-platform code to scan through an archive of documents (photos, codes, documents, etc.) and remove duplicates if any. 
 
-This code traverses through a directory and its subdirectories, identifies 
-repeat files by matching their MD5 checksums and deletes the repeats after
-prompting the user. 
+This code traverses through a directory and its subdirectories, identifies repeat files by matching their MD5 checksums and deletes the repeats after prompting the user. 
 
-Files can be filtered based on file name extensions. If filtering is used,
-only files belonging to an input list of extensions are checked for repeats.
+Files can be filtered based on file name extensions. If filtering is used, only files belonging to an input list of extensions are checked for repeats.
 
-As always, use with prudence as the deleted files cannot be recovered 
-later in some OS!
+As always, use with prudence as the deleted files cannot be recovered  later in some OS!
 
 One typical use is for removing duplicate photos from your archive. 
 
